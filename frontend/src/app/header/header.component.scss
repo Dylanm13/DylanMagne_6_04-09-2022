@@ -1,7 +1,6 @@
 nav {
   box-sizing: border-box;
   width: 100%;
-  max-width: 1400px;
   margin: auto;
   position: relative;
   top: 0;
@@ -16,6 +15,7 @@ h1 {
   font-weight: 700;
   font-size: 2.4em;
   margin: 0;
+  color: red;
 }
 
 h5 {
@@ -27,22 +27,25 @@ h5 {
 .logo {
   display: flex;
   align-items: center;
+  flex-direction: column;
+  margin-top: -2em;
 }
 
 .logo-text {
   text-align: center;
+  margin-top: -2em;
 }
 
 .logo-image {
   img {
-    height: 4.5em;
+    height: 8.5em;
+    width: 8.5em;
   }
   margin-right: 1em;
 }
 
 .left-nav, .right-nav {
   align-self: center;
-  width: 30%;
 }
 
 .right-nav {
@@ -56,6 +59,9 @@ ul {
   padding: 0;
   margin: 0;
   display: flex;
+    @media all and (max-width: 1024px) {
+      flex-direction: column;
+    }
 }
 
 li {
