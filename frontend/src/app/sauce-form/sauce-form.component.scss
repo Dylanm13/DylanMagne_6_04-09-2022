@@ -21,3 +21,16 @@ form {
 input[type="file"] {
   display: none;
 }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  position:absolute;
+  top:34em;
+  width:100%;
+  height:50px;
+  padding: 0em 6em;
+  @media all and (max-width: 600px) {
+    flex-direction: column;
+  }
+}

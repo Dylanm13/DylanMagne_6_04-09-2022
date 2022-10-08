@@ -1,4 +1,8 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="spinner">
+  <div class="spinner_border">
+      <div class="spinner_center"></div>
+  </div>
+</div>
 <ng-container *ngIf="sauces$ | async as sauces">
   <p *ngIf="!loading && sauces.length <= 0">
     No sauces to display!
@@ -11,4 +15,10 @@
       <p>Heat: {{ sauce.heat }}/10</p>
     </div>
   </div>
+  <footer>
+      <div>Nous contacter</div>
+      <div>À propos</div>
+      <div>Communauté</div>
+      <div>Produits</div>
+  </footer>
 </ng-container>

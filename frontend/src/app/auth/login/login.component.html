@@ -1,4 +1,8 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="spinner">
+  <div class="spinner_border">
+      <div class="spinner_center"></div>
+  </div>
+</div>
 <form [formGroup]="loginForm" *ngIf="!loading">
   <div class="form-group">
     <label for="email">Email</label>
@@ -10,4 +14,6 @@
   </div>
   <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLogin()">LOGIN</button>
   <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+
 </form>
+
