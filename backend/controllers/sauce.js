@@ -36,11 +36,10 @@ exports.updateSauce = (req, res, next) => { /* permet de modifier une sauce grâ
     ...JSON.parse(req.body.sauce),
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`} : { ...req.body }  /* fs.unlink a verifier */
 
-  delete sauceObject._userId;
    Sauce.findOne({_id: req.params.id})
        .then((sauce) => {
            if (sauce.userId != req.auth.userId) {
-               res.status(401).json({ message : 'Not authorized'});
+               res.status(403).json({ message : 'Not authorized'});
            } else {
                const filename = sauce.imageUrl.split("/images/")[1]
                fs.unlink(`images/${filename}`, () => {
@@ -58,6 +57,9 @@ exports.updateSauce = (req, res, next) => { /* permet de modifier une sauce grâ
 exports.deleteSauce = (req, res, next) => { /* permet de supprimer une sauce en récupérant son id */
   Sauce.findOne({ _id : req.params.id })
   .then(sauce => {
+    if (sauce.userId != req.auth.userId) {
+      res.status(403).json({ message : 'Not authorized'});
+  }
     const filename = sauce.imageUrl.split("/images/")[1]
     fs.unlink(`images/${filename}`, () => {
     Sauce.deleteOne({_id : req.params.id})
@@ -75,10 +77,14 @@ exports.likeDislikeSauce = (req, res, next) => {
   
   switch (like) {
     case 1 : /* permet de push un like sur la sauce (ce like sera attaché a un userId pour ne pas qu'un seul user puisse mettre plusieur likes) */
+    Sauce.findOne({ _id: sauceId })
+           .then((sauce) => {
+      if (!sauce.usersLiked.includes(userId)) {
         Sauce.updateOne({ _id: sauceId }, { $push: { usersLiked: userId }, $inc: { likes: +1 }})
-          .then(() => res.status(200).json({ message: `J'aime` }))
-          .catch((error) => res.status(400).json({ error }))
-            
+        .then(() => res.status(200).json({ message: `J'aime` }))
+        .catch((error) => res.status(400).json({ error }))
+      }
+           })
       break
 
     case 0 : /* permet d'être ou de retourner a une situation neutre ou l'utilisateur ne like ou dislike pas le sauce */
@@ -99,9 +105,14 @@ exports.likeDislikeSauce = (req, res, next) => {
       break
 
     case -1 : /* permet de push un dislike sur la sauce (ce like sera attaché a un userId pour ne pas qu'un seul user puisse mettre plusieur likes) */
+    Sauce.findOne({ _id: sauceId })
+           .then((sauce) => {
+            if (!sauce.usersDisliked.includes(userId)) {
         Sauce.updateOne({ _id: sauceId }, { $push: { usersDisliked: userId }, $inc: { dislikes: +1 }})
           .then(() => { res.status(200).json({ message: `Je n'aime pas` }) })
           .catch((error) => res.status(400).json({ error }))
+            }
+           })
       break
       
       default:

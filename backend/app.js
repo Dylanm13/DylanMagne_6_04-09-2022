@@ -6,8 +6,8 @@ require('dotenv').config() /* importation du package dotenv */
 const userRoutes = require('./routes/user') /* importation de nos routes express user */
 const sauceRoutes = require('./routes/sauce') /* importation de nos routes express sauce */
 
-mongoose.connect(process.env.MONGO_DB_SECRET, { useNewUrlParser: true, useUnifiedTopology: true }) /* initialisation de la connexion a MongoDB
-  .then(() => console.log('Connexion à MongoDB réussie !'))                                           en rentrant la clé de la base de données*/
+mongoose.connect(process.env.MONGO_DB_SECRET, { useNewUrlParser: true, useUnifiedTopology: true }) /* initialisation de la connexion a MongoDB */
+  .then(() => console.log('Connexion à MongoDB réussie !'))                                        /* en rentrant la clé de la base de données */
   .catch(() => console.log('Connexion à MongoDB échouée !'))
 
 const app = express()
